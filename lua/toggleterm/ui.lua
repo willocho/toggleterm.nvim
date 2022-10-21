@@ -304,6 +304,11 @@ local function close_tab()
     return utils.notify("You cannot close the last tab! This will exit neovim", "error")
   end
   vim.cmd("tabclose")
+  if origin_window and api.nvim_win_is_valid(origin_window) then
+    api.nvim_set_current_win(origin_window)
+  else
+    origin_window = nil
+  end
 end
 
 ---Close terminal window
