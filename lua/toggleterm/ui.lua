@@ -300,15 +300,16 @@ function M.open_tab(term)
 end
 
 local function close_tab()
+  current_tab = api.nvim_get_current_win()
   if #vim.api.nvim_list_tabpages() == 1 then
     return utils.notify("You cannot close the last tab! This will exit neovim", "error")
   end
-  vim.cmd("tabclose")
   if origin_window and api.nvim_win_is_valid(origin_window) then
     api.nvim_set_current_win(origin_window)
   else
     origin_window = nil
   end
+  api.nvim_win_close(current_tab)
 end
 
 ---Close terminal window
